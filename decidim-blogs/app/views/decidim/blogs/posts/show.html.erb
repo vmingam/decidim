@@ -21,7 +21,11 @@
 
 <%= render layout: "layouts/decidim/shared/layout_center" do %>
 
-  <h1 class="h1 decorator my-12"><%= translated_attribute post.title %></h1>
+  <div class="text-center py-12">
+    <h1 class="h1 decorator inline-block text-left">
+      <%= translated_attribute post.title %>
+    </h1>
+  </div>
 
   <% if post.photo.present? %>
     <div class="blog__image grow">
