@@ -7,7 +7,7 @@
     </div>
   <% end %>
 
-  <%= render layout: "redesigned/shared/drawer" do %>
+  <%= render layout: "redesigned/shared/drawer", locals: { next: "https://www..", prev: "https://www.." } do %>
     <div class="h-full bg-secondary/10 text-3xl grid place-items-center">
       main
     </div>
