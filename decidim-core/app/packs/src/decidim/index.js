@@ -21,6 +21,7 @@ import Accordions from "a11y-accordion-component";
 import Dropdowns from "a11y-dropdown-component";
 import Dialogs from "a11y-dialog-component";
 import markAsReadNotifications from "src/decidim/notifications"
+import RemoteModal from "src/decidim/redesigned_ajax_modals"
 
 window.Decidim = window.Decidim || {};
 window.Decidim.config = new Configuration()
@@ -121,6 +122,9 @@ $(() => {
       })
     }
   );
+
+  // Initialize available remote modals (ajax-fetched contents)
+  document.querySelectorAll("[data-dialog-remote-url]").forEach((elem) => new RemoteModal(elem))
 
   markAsReadNotifications()
 

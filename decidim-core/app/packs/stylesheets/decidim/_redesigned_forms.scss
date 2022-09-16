@@ -12,6 +12,7 @@
   input[type="time"],
   input[type="url"],
   input[type="week"],
+  select,
   textarea{
     &:not(.reset-defaults){
       @apply inline-block px-4 py-2 border border-gray outline outline-1 outline-transparent rounded bg-background-2 text-black font-normal placeholder:text-gray focus:outline-2 focus:outline-secondary invalid:outline-2 invalid:outline-alert disabled:bg-background-3 disabled:text-gray-2 disabled:cursor-not-allowed;
@@ -37,16 +38,44 @@
   }
 }
 
-.help-text{
-  @apply block text-md text-gray-2 font-normal prose-a:text-secondary prose-a:underline;
-}
-
 .form-error{
   @apply mt-2 hidden font-normal text-sm text-primary;
 }
 
 *:invalid ~ .form-error{
   @apply block;
+}
+
+.help-text{
+  @apply block text-md text-gray-2 font-normal prose-a:text-secondary prose-a:underline;
+}
+
+.form__wrapper{
+  @apply flex flex-col py-10 gap-10;
+
+  &-block{
+    @apply py-10 border-t-2 border-background flex flex-col py-10 gap-4 only:[&_button]:ml-auto [&_p]:text-gray-2;
+  }
+
+  &-checkbox-label{
+    @apply text-md text-gray-2 font-normal prose-a:text-secondary prose-a:underline cursor-pointer;
+  }
+
+  & label:not(&-checkbox-label),
+  &-block label:not(&-checkbox-label){
+    @apply font-semibold text-lg;
+  }
+
+  .help-text{
+    @apply mt-4;
+  }
+
+  input[type="text"],
+  input[type="email"],
+  input[type="password"],
+  select{
+    @apply w-full block mt-4;
+  }
 }
 
 .input-character-counter{

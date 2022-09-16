@@ -2,82 +2,79 @@
 <% content_for(:subtitle) { t("authorizations", scope: "layouts.decidim.user_profile") } %>
 <% url_params = (redirect_url.present? ? { redirect_url: redirect_url } : {}) %>
 
-<div class="row column authorizations-list">
-  <section class="section">
-    <% if @granted_authorizations.any? %>
-      <div class="card card--list">
-        <% @granted_authorizations.each do |authorization| %>
-          <% if authorization.renewable? %>
-            <%= link_to "#", title: t(".show_renew_info"), data: { open: "renew-modal", "open-url": renew_modal_authorizations_path(handler: authorization.name) }, class: "card--list__item authorization-renewable" do %>
-               <%= render partial: "granted_authorization", locals: { authorization: authorization } %>
-            <% end %>
-          <% elsif authorization.expired? %>
-            <%= link_to authorization_method(authorization).root_path(**url_params), title: t(".expired_verification"), class: "card--list__item" do %>
-              <% render partial: "granted_authorization", locals: { authorization: authorization } %>
-            <% end %>
-          <% else %>
-            <div class="card--list__item">
-              <%= render partial: "granted_authorization", locals: { authorization: authorization } %>
-            </div>
-          <% end %>
-        <% end %>
-      </div>
+<% content_for :js_content do %>
+  <%= javascript_pack_tag "decidim_verifications" %>
+<% end %>
 
-      <div id="renew-modal" data-reveal class="reveal" aria-labelledby="<%= t("renew_modal.title", scope: "decidim.verifications.authorizations") %>" aria-hidden="true" role="dialog"></div>
-    <% end %>
+<% content_for :css_content do %>
+  <%= stylesheet_pack_tag "decidim_verifications", media: "all" %>
+<% end %>
 
-    <% if @pending_authorizations.any? %>
-      <div class="card card--list">
-        <% @pending_authorizations.each do |authorization| %>
-          <%= link_to authorization_method(authorization).resume_authorization_path(**url_params) do %>
-            <div class="card--list__item">
-              <div class="card--list__text">
-                <%= icon "reload", class: "card--list__icon", aria_label: t(".pending_verification"), role: "img" %>
-                <div>
-                  <h5 class="card--list__heading">
-                    <%= t("#{authorization.name}.name", scope: "decidim.authorization_handlers") %>
-                  </h5>
-                  <span class="text-small">
-                    <%= t("started_at", scope: "decidim.authorization_handlers", timestamp: l(authorization.updated_at, format: :long)) %>
-                  </span>
-                </div>
-              </div>
-              <div class="card--list__data" aria-hidden="true">
-                <span class="card--list__data__icon">
-                  <%= icon "chevron-right", role: "img", "aria-hidden": true %>
-                </span>
-              </div>
-            </div>
-          <% end %>
-        <% end %>
-      </div>
-    <% end %>
+<%= render layout: "layouts/decidim/shared/layout_user_profile" do %>
+  <section class="authorizations-list">
+    <%
+      # REDESIGN_PENDING: Move to controller
 
-    <% if unauthorized_methods.any? %>
-      <div class="card card--list">
-        <% unauthorized_methods.each do |unauthorized_method| %>
-          <%= link_to unauthorized_method.root_path(**url_params) do %>
-            <div class="card--list__item">
-              <div class="card--list__text">
-                <%= icon "lock-unlocked", class: "card--list__icon", aria_label: t(".unauthorized_verification"), role: "img" %>
-                <div>
-                  <h5 class="card--list__heading">
-                    <%= t("#{unauthorized_method.key}.name", scope: "decidim.authorization_handlers") %>
-                  </h5>
-                  <span class="text-small">
-                    <%= t("#{unauthorized_method.key}.explanation", scope: "decidim.authorization_handlers") %>
-                  </span>
-                </div>
-              </div>
-              <div class="card--list__data" aria-hidden="true">
-                <span class="card--list__data__icon">
-                  <%= icon "chevron-right", role: "img", "aria-hidden": true %>
-                </span>
-              </div>
-            </div>
-          <% end %>
+      authorizations = []
+
+      if @granted_authorizations.any?
+        granted = []
+        granted << t("authorizations.index.granted_verification", scope: "decidim.verifications")
+        granted << @granted_authorizations.map do |authorization|
+          {
+            url: authorization.renewable? ? nil : authorization.expired? ? authorization_method(authorization).root_path(**url_params) : nil,
+            remote_url: authorization.renewable? ? renew_modal_authorizations_path(handler: authorization.name) : nil,
+            auth_icon: "checkbox-circle-line",
+            is_granted: true,
+            title: t("#{authorization.name}.name", scope: "decidim.authorization_handlers"),
+            explanation: authorization.expired? ? t("expired_at", scope: "decidim.authorization_handlers", timestamp: l(authorization.expires_at, format: :long)) : "#{t("granted_at", scope: "decidim.authorization_handlers", timestamp: l(authorization.granted_at, format: :long))} #{t("expires_at", scope: "decidim.authorization_handlers", timestamp: l(authorization.expires_at, format: :long)) if authorization.expires_at.present? }",
+            button_text: authorization.renewable? ? t("authorizations.index.show_renew_info", scope: "decidim.verifications") : authorization.expired? ? t("authorizations.index.expired_verification", scope: "decidim.verifications") : nil
+          }
+        end
+
+        authorizations << granted
+      end
+
+      if @pending_authorizations.any?
+        pending = []
+        pending << t("authorizations.index.pending_verification", scope: "decidim.verifications")
+        pending << @pending_authorizations.map do |authorization|
+          {
+            url: authorization_method(authorization).resume_authorization_path(**url_params),
+            auth_icon: "loader-2-line",
+            title: t("#{authorization.name}.name", scope: "decidim.authorization_handlers"),
+            explanation: t("started_at", scope: "decidim.authorization_handlers", timestamp: l(authorization.updated_at, format: :long)),
+            button_text: t("authorizations.index.introduce_code", scope: "decidim.verifications")
+          }
+        end
+
+        authorizations << pending
+      end
+
+      if unauthorized_methods.any?
+        unauthorized = []
+        unauthorized << t("authorizations.index.unauthorized_methods", scope: "decidim.verifications")
+        unauthorized << unauthorized_methods.map do |unauthorized_method|
+          {
+            url: unauthorized_method.root_path(**url_params),
+            auth_icon: unauthorized_method.icon,
+            title: t("#{unauthorized_method.key}.name", scope: "decidim.authorization_handlers"),
+            explanation: t("#{unauthorized_method.key}.explanation", scope: "decidim.authorization_handlers"),
+            button_text: t("authorizations.index.subscribe", scope: "decidim.verifications")
+          }
+        end
+
+        authorizations << unauthorized
+      end
+    %>
+
+    <% authorizations.each do |auth| %>
+      <div class="verification__container-title"><%= auth[0] %></div>
+      <div class="verification__container">
+        <% auth[1].each do |locals| %>
+          <%= render partial: "item", locals: locals %>
         <% end %>
       </div>
     <% end %>
   </section>
-</div>
+<% end %>

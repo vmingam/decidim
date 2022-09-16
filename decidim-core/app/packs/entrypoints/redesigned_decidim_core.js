@@ -36,7 +36,7 @@ import "src/decidim/append_redirect_url_to_modals"
 import "src/decidim/form_attachments"
 import "src/decidim/form_validator"
 import "src/decidim/form_remote"
-import "src/decidim/ajax_modals"
+// import "src/decidim/ajax_modals" -- imported in submodules
 // REDESIGN_PENDING: remove deprecated js file (now it's a decidim_core.js dependency)
 // import "src/decidim/conferences" -- deprecated
 import "src/decidim/tooltip_keep_on_hover"
