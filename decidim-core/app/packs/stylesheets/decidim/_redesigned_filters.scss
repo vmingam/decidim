@@ -1,0 +1,63 @@
+.filter{
+  @apply flex items-center gap-2 p-1.5 rounded cursor-pointer;
+
+  &-container{
+    @apply sticky top-0 md:top-2 rounded border-4 border-background md:border-0;
+
+    [id*="dropdown-menu"]{
+      @apply flex flex-col gap-2 md:gap-4 mx-3.5 py-3.5 md:mx-0 md:px-0 border-t md:border-t-0 border-gray-3 cursor-pointer;
+
+      &[aria-hidden="true"]{
+        @apply hidden md:flex;
+      }
+    }
+
+    [data-target*="dropdown"]{
+      @apply w-full md:hidden flex items-center justify-between gap-2 p-2 first-of-type:[&>svg]:block last-of-type:[&>svg]:hidden;
+
+      & > span{
+        @apply hidden font-semibold;
+
+        &.is-active{
+          @apply flex items-center gap-2 text-secondary [&_svg]:fill-current;
+        }
+      }
+
+      > svg{
+        @apply w-8 h-8 flex-none text-secondary fill-current;
+      }
+
+      &[aria-expanded="false"] > svg:last-of-type,
+      &[aria-expanded="true"] > svg:first-of-type{
+        @apply hidden;
+      }
+
+      &[aria-expanded="true"] > svg:last-of-type,
+      &[aria-expanded="false"] > svg:first-of-type{
+        @apply block;
+      }
+    }
+  }
+
+  svg{
+    @apply w-4 h-4 flex-none text-gray fill-current;
+  }
+
+  span{
+    @apply text-sm text-gray-2 whitespace-nowrap first-letter:uppercase;
+  }
+
+  &-container [type="radio"]:checked + &,
+  &-container [id*="dropdown-menu"] .is-active,
+  &:hover{
+    @apply bg-background-4;
+
+    svg{
+      @apply text-secondary;
+    }
+
+    span{
+      @apply text-secondary font-semibold;
+    }
+  }
+}

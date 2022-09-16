@@ -49,6 +49,7 @@ describe "Explore results", versioning: true, type: :system do
 
     it "shows progress" do
       expect(page).to have_content("Global execution status")
+      # REDESIGN_PENDING: replace selector
       expect(page).to have_selector(".progress-figure")
     end
 
@@ -61,6 +62,7 @@ describe "Explore results", versioning: true, type: :system do
         visit path
 
         expect(page).to have_no_content("Global execution status")
+        # REDESIGN_PENDING: replace selector
         expect(page).to have_no_selector(".progress-figure")
       end
     end
@@ -345,7 +347,7 @@ describe "Explore results", versioning: true, type: :system do
         end
 
         it "disables filtering by scope" do
-          within ".scope-filters" do
+          within "[data-scope-filters]" do
             expect(page).not_to have_content(/Scopes/i)
           end
         end
@@ -358,7 +360,7 @@ describe "Explore results", versioning: true, type: :system do
         end
 
         it "enables filtering by scope" do
-          within ".scope-filters" do
+          within "[data-scope-filters]" do
             expect(page).to have_content(/Scopes/i)
           end
         end

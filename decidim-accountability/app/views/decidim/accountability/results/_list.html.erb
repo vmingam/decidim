@@ -1,0 +1,25 @@
+<% results.each do |result| %>
+  <%= link_to result, class: "accountability__result" do %>
+    <div class="accountability__result-details-container">
+      <h3 class="h5 text-secondary">
+        <%= translated_attribute result.title %>
+      </h3>
+
+      <%# REDESIGN_PENDING: This content is a mock %>
+      <div class="accountability__result-details">
+        <span>
+          <%= icon "calendar-line" %>
+          23 Jul -> 31 Ago
+        </span>
+        <span>
+          <%= icon "price-tag-3-line" %>
+          Equipamientos para colectivos específicos
+        </span>
+      </div>
+    </div>
+
+    <% if component_settings.display_progress_enabled? && result.progress.present? %>
+      <div class="accountability__result-progress"><%= display_percentage result.progress %></div>
+    <% end %>
+  <% end %>
+<% end %>
