@@ -850,6 +850,7 @@ en:
         max_file_dimension: 'Maximum file dimensions: %{resolution} pixels'
         max_file_size: 'Maximum file size: %{megabytes}MB'
       upload:
+        select_file: Select file
         labels:
           add_attachment: Add attachment
           add_file: Add file
@@ -857,6 +858,7 @@ en:
           cancel: Cancel
           edit_image: Edit image
           error: Error!
+          filename: Filename
           file_size_too_large: 'File size is too large! Maximun file size: %{megabytes}MB'
           remove: Remove
           replace: Replace
