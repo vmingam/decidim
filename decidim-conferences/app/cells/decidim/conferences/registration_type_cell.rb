@@ -8,6 +8,7 @@ module Decidim
       include Decidim::SanitizeHelper
       include Decidim::Conferences::Engine.routes.url_helpers
       include Decidim::LayoutHelper
+      include Decidim::RedesignHelper
 
       def show
         render
@@ -36,7 +37,7 @@ module Decidim
       end
 
       def button_classes
-        "button button--sc small"
+        "button button__sm button__transparent-secondary"
       end
 
       def conference

@@ -1454,6 +1454,9 @@ en:
           select_an_area: Select an area
       public_participation:
         public_participation: Show my attendance publicly
+      redesigned_login_modal:
+        please_sign_in: Please sign in
+        sign_up: Sign up
       reference:
         reference: 'Reference: %{reference}'
       represent_user_group:
