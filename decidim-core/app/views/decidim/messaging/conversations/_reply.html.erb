@@ -1,12 +1,9 @@
-<div class="conversation-reply conversation-reply--offset">
-  <h2 class="section-heading">
-    <%= t(".title") %>
-  </h2>
-
+<div data-conversation-reply>
   <%= decidim_form_for form, url: decidim.conversation_path(conversation.id), method: :put, remote: true do |f| %>
-    <%= f.label :body, nil, class: "show-for-sr" %>
-    <%= f.text_area :body, label: false, rows: 4, required: true, placeholder: t(".placeholder"), data: { input_emoji: true } %>
-
-    <%= f.submit t(".send"), class: "button pull-right", data: { disable: true } %>
+    <div class="conversation__reply">
+      <%= f.label :body, nil, class: "sr-only" %>
+      <%= f.text_area :body, label: false, rows: 4, required: true, autofocus: true, placeholder: t(".placeholder"), data: { "input-emoji": true } %>
+      <%= f.submit "#{t(".send")} #{icon "arrow-right-line", class: "fill-current"}".html_safe, class: "button button__sm button__secondary self-end mt-4" %>
+    </div>
   <% end %>
 </div>
