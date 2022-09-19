@@ -830,6 +830,7 @@ en:
           password: The password is too short.
           password_confirmation: Password confirmation must match the password.
         error: There's an error in this field.
+      emoji_chooser: Choose an emoji
       file_help:
         file:
           explanation: 'Guidance for file:'
@@ -1099,7 +1100,7 @@ en:
           next: Next
           no_conversations: You have no conversations yet
           title: Conversations
-        reply:
+        reply_form:
           placeholder: Your reply...
           send: Send
         show:
