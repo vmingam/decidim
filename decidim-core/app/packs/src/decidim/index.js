@@ -136,6 +136,14 @@ $(() => {
       })
   );
 
+  document.querySelectorAll("[data-drawer]").forEach(
+    ({ dataset: { drawer } }) =>
+      new Dialogs(`[data-drawer="${drawer}"]`, {
+        openingSelector: `[data-drawer-open="${drawer}"]`,
+        closingSelector: `[data-drawer-close="${drawer}"]`
+      })
+  );
+
   markAsReadNotifications()
 
   scrollToLastChild()
