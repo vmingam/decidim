@@ -1,5 +1,5 @@
 <ol class="accountability__project-timeline">
-  <% result.timeline_entries.each_with_index do |timeline_entry, i| %>
+  <% timeline_entries.each_with_index do |timeline_entry, i| %>
     <li class="accountability__project-timeline-entry">
       <div class="accountability__project-timeline-entry-number">
         <span><%= i + 1 %></span>
@@ -13,7 +13,7 @@
         </div>
         <% if translated_attribute(timeline_entry.description).present? %>
           <div>
-            <%== translated_attribute timeline_entry.description %>
+            <%= translated_attribute(timeline_entry.description).html_safe %>
           </div>
         <% end %>
       </div>
