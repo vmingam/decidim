@@ -1,12 +1,3 @@
-<% content_for :js_content do %>
-  <%= javascript_pack_tag "decidim_verifications" %>
-<% end %>
-
-<% content_for :css_content do %>
-  <%= stylesheet_pack_tag "decidim_verifications", media: "all" %>
-<% end %>
-
-<%= render layout: "layouts/decidim/shared/layout_center" do %>
   <div class="text-center py-10">
     <h1 class="h1 decorator inline-block text-left">
       <%= t("decidim.verifications.authorizations.new.authorize_with", authorizer: t("#{handler.handler_name}.name", scope: "decidim.authorization_handlers")) %>
@@ -24,11 +15,10 @@
       <% end %>
 
       <div class="form__wrapper-block flex-row justify-between">
-        <%# REDESIGN_PENDING: link to main index %>
-        <a href="" class="button button__lg button__text-secondary">
+        <%= link_to authorizations_path, class: "button button__lg button__text-secondary" do %>
           <%= icon "arrow-left-line", class: "fill-current" %>
           <%= t("decidim.wizard_step_form.wizard_aside.back") %>
-        </a>
+        <% end %>
         <button type="submit" class="button button__lg button__secondary">
           <%= t("decidim.verifications.authorizations.new.authorize") %>
           <%= icon "arrow-right-line", class: "fill-current" %>
@@ -39,4 +29,3 @@
       <%= t("decidim.verifications.authorizations.skip_verification", link: link_to(t("decidim.verifications.authorizations.start_exploring"), cta_button_path).html_safe).html_safe %>.
     </p>
   </div>
-<% end %>

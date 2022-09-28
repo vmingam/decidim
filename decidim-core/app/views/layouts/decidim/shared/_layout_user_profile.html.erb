@@ -11,7 +11,7 @@
   <div class="vertical-tabs mb-24">
     <nav>
       <button id="dropdown-trigger" data-component="dropdown" data-target="dropdown-menu" data-auto-close="true">
-        <span><%= user_menu.active_item.label %></span>
+        <span><%= user_menu.active_item&.label || t("decidim.searches.filters.jump_to") %></span>
         <%= icon "arrow-down-s-line" %>
         <%= icon "arrow-up-s-line" %>
       </button>

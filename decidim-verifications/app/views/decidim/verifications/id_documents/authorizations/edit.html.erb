@@ -1,13 +1,3 @@
-<% content_for :js_content do %>
-  <%= javascript_pack_tag "decidim_verifications" %>
-<% end %>
-
-<% content_for :css_content do %>
-  <%= stylesheet_pack_tag "decidim_verifications", media: "all" %>
-<% end %>
-
-<%= render layout: "layouts/decidim/shared/layout_center" do %>
-
   <div class="my-12">
     <%= cell("decidim/announcement", announcement_title(authorization), callout_class: authorization.rejected? ? "alert" : "secondary" ) %>
   </div>
@@ -19,11 +9,10 @@
       <%= render partial: "form", locals: { form: form } %>
 
       <div class="form__wrapper-block flex-row justify-between">
-        <%# REDESIGN_PENDING: link to main index %>
-        <a href="" class="button button__lg button__text-secondary">
+        <%= link_to decidim_verifications.authorizations_path, class: "button button__lg button__text-secondary" do %>
           <%= icon "arrow-left-line", class: "fill-current" %>
           <%= t("decidim.wizard_step_form.wizard_aside.back") %>
-        </a>
+        <% end %>
         <button type="submit" class="button button__lg button__secondary">
           <%= t("decidim.verifications.id_documents.authorizations.edit.send") %>
           <%= icon "arrow-right-line", class: "fill-current" %>
@@ -35,5 +24,3 @@
       </div>
     <% end %>
   </div>
-
-<% end %>
