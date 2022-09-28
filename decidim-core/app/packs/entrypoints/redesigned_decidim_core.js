@@ -57,7 +57,7 @@ import "src/decidim/impersonation"
 import "src/decidim/notifications"
 import "src/decidim/identity_selector_dialog"
 import "src/decidim/gallery"
-import "src/decidim/direct_uploads/upload_field"
+import "src/decidim/direct_uploads/redesigned_upload_field"
 import "src/decidim/sw"
 import "src/decidim/back_to_list"
 

@@ -3,6 +3,7 @@
 module Decidim
   # This cell creates the necessary elements for dynamic uploads.
   class UploadModalCell < Decidim::ViewModel
+    include LayoutHelper
     include Cell::ViewModel::Partial
     include ERB::Util
 
@@ -15,6 +16,11 @@ module Decidim
     end
 
     private
+
+    # REDESIGN_PENDING: remove once redesign is done
+    def redesign_enabled?
+      true
+    end
 
     def button_id
       prefix = form.object_name.present? ? "#{form.object_name}_" : ""
