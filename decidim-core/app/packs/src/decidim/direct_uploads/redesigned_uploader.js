@@ -1,6 +1,4 @@
 import { DirectUpload } from "@rails/activestorage";
-import { createElement } from "src/decidim/direct_uploads/upload_utility";
-import icon from "src/decidim/redesigned_icon";
 
 export class Uploader {
   constructor(modal, options) {
@@ -40,15 +38,18 @@ export class Uploader {
         formClass: this.modal.options.formObjectClass
       });
 
-      fetch(`/upload_validations?${params.toString()}`, {
+      return fetch(`/upload_validations?${params.toString()}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           "X-CSRF-Token": $("meta[name=csrf-token]").attr("content")
         }
-      }).then((response) => response.json()).then((data) => callback(data));
-
-      this.validationSent = true;
+      }).
+        then((response) => response.json()).
+        then((data) => {
+          this.validationSent = true;
+          callback(data);
+        });
     }
   }
 

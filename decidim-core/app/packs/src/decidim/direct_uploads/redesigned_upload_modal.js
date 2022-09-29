@@ -1,6 +1,6 @@
 import { Uploader } from "src/decidim/direct_uploads/redesigned_uploader";
 import icon from "src/decidim/redesigned_icon";
-import { truncateFilename, checkTitles, createHiddenInput } from "src/decidim/direct_uploads/upload_utility";
+import { truncateFilename } from "src/decidim/direct_uploads/upload_utility";
 
 // This class handles logic inside upload modal, but since modal is not inside the form
 // logic here moves "upload items" / hidden inputs to form.
@@ -53,6 +53,11 @@ export default class UploadModal {
       attachmentName: file.name
     });
 
+    const item = this.createUploadItem(file, uploader.errors)
+
+    // add the item to the DOM, before validations
+    this.uploadItems.appendChild(item);
+
     if (!uploader.errors.length) {
       uploader.upload.create((error, blob) => {
         if (error) {
@@ -69,13 +74,27 @@ export default class UploadModal {
 
           file.hiddenField = { value: blob.signed_id, name }
 
-          uploader.validate(blob.signed_id);
+          // since the validation step is async, we must wait for the responses
+          uploader.validate(blob.signed_id).then(() => {
+            if (uploader.errors.length) {
+              this.uploadItems.replaceChild(this.createUploadItem(file, uploader.errors, { value: 100 }), item)
+            } else {
+              // add only the validated files to the array of File(s)
+              this.items.push(file)
+              // autoload the image
+              const reader = new FileReader();
+              reader.readAsDataURL(file);
+              reader.onload = ({ target: { result }}) => {
+                const img = item.querySelector("img")
+                img.src = result
+              }
+
+              this.updateDropZone();
+            }
+          });
         }
       });
     }
-
-    this.createUploadItem(file, uploader.errors)
-    this.updateDropZone();
   }
 
   getOrdinalNumber() {
@@ -89,14 +108,12 @@ export default class UploadModal {
     // we cannot check this.input.files.length when some item is removed
     const inputHasFiles = this.uploadItems.children.length !== 0
 
-    // toggle HTML blocks
-    this.emptyItems.hidden = inputHasFiles;
     this.uploadItems.hidden = !inputHasFiles;
     this.saveButton.disabled = !inputHasFiles;
-    this.input.disabled = inputHasFiles;
+    // this.input.disabled = inputHasFiles;
   }
 
-  createUploadItem(file, errors) {
+  createUploadItem(file, errors, opts = {}) {
     const okTemplate = `
       <div><img src="" alt="${file.name}" /></div>
       <span>${truncateFilename(file.name)}</span>
@@ -146,7 +163,7 @@ export default class UploadModal {
           ${content.trim()}
           <button>${this.locales.remove}</button>
         </div>
-        <progress max="100" value="${0}"></progress>
+        <progress max="100" value="${opts.value || 0}"></progress>
       </li>`
 
     const div = document.createElement("div")
@@ -154,25 +171,8 @@ export default class UploadModal {
 
     const container = div.firstChild
 
-    if (!errors.length) {
-      // autoload the image
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = ({ target: { result }}) => {
-        const img = container.querySelector("img")
-        img.src = result
-      }
-    }
-
     // append the listeners to the template
     container.querySelector("button").addEventListener("click", this.handleButtonClick.bind(this))
-
-    // add the item to the DOM
-    this.uploadItems.appendChild(container);
-    // add only the validated files to the array of File(s)
-    if (!errors.length) {
-      this.items.push(file)
-    }
 
     return container;
   }
