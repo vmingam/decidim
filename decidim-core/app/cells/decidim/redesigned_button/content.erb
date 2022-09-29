@@ -1,5 +1,7 @@
 <% if text.present? %>
-  <%= content_tag :span, text, class: text_classes %>
+  <%= content_tag :span, class: text_classes do %>
+    <%= text %>
+  <% end %>
 <% end %>
 
 <% if icon_name.present? %>
