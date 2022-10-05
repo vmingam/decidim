@@ -39,6 +39,7 @@ require "diffy"
 require "ransack"
 require "wisper"
 require "webpacker"
+require "turbo-rails"
 
 # Needed for the assets:precompile task, for configuring webpacker instance
 require "decidim/webpacker"
@@ -258,6 +259,13 @@ module Decidim
           Decidim::EventsManager.subscribe(/^decidim\.events\./) do |event_name, data|
             EventPublisherJob.perform_later(event_name, data)
           end
+        end
+      end
+
+      initializer "decidim.validators" do
+        config.to_prepare do
+          # Decidim overrides to the file content type validator
+          require "file_content_type_validator"
         end
       end
 
@@ -690,6 +698,14 @@ module Decidim
           # The time you want to timeout the user session without activity. After this
           # time the user will be asked for credentials again. Default is 30 minutes.
           config.timeout_in = Decidim.config.expire_session_after
+        end
+      end
+
+      initializer "decidim.authorization_transfer" do
+        Decidim::AuthorizationTransfer.register(:core) do |transfer|
+          transfer.move_records(Decidim::Coauthorship, :decidim_author_id)
+          transfer.move_records(Decidim::Endorsement, :decidim_author_id)
+          transfer.move_records(Decidim::Amendment, :decidim_user_id)
         end
       end
 
