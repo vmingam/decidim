@@ -32,15 +32,7 @@ window.Decidim.CommentsComponent = CommentsComponent;
 window.Decidim.addInputEmoji = addInputEmoji;
 window.Decidim.CreateEmojiButton = CreateEmojiButton;
 
-/**
- * Initializer event for those script who require to be triggered
- * when the page is loaded
- */
-// If no jQuery is used the Tribute feature used in comments to autocomplete
-// mentions stops working
-// document.addEventListener("DOMContentLoaded", () => {
-$(() => {
-
+const initializer = () => {
   window.theDataPicker = new DataPicker($(".data-picker"));
   window.focusGuard = new FocusGuard(document.querySelector("body"));
 
@@ -120,15 +112,26 @@ $(() => {
       })
   );
 
-  document.querySelectorAll("[data-drawer]").forEach(
-    ({ dataset: { drawer } }) =>
-      new Dialogs(`[data-drawer="${drawer}"]`, {
-        openingSelector: `[data-drawer-open="${drawer}"]`,
-        closingSelector: `[data-drawer-close="${drawer}"]`
-      })
-  );
-
   markAsReadNotifications()
 
   scrollToLastChild()
-});
+}
+
+/**
+ * Initializer event for those script who require to be triggered
+ * when the page is loaded
+ */
+// If no jQuery is used the Tribute feature used in comments to autocomplete
+// mentions stops working
+// document.addEventListener("DOMContentLoaded", () => {
+$(() => initializer());
+
+document.addEventListener("turbo:frame-render", (_frame) => {
+  initializer();
+  document.querySelectorAll("[data-drawer]").forEach(
+    ({ dataset: { drawer } }) =>
+    new Dialogs(`[data-drawer="${drawer}"]`, {
+      closingSelector: `[data-drawer-close="${drawer}"]`
+    }).open()
+  )
+})
