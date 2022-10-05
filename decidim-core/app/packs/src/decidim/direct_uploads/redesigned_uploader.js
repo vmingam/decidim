@@ -51,6 +51,8 @@ export class Uploader {
           callback(data);
         });
     }
+
+    return Promise.resolve()
   }
 
   // The following method come from @rails/activestorage
