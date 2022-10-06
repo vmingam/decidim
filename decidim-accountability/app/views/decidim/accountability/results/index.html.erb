@@ -7,13 +7,13 @@
 <% end %>
 
 <% content_for :aside do %>
-  <h1 class="h1 decorator"><%= t("decidim.components.accountability.name") %></h1>
+  <h1 class="h1 decorator"><%= component_name %></h1>
 
   <div class="accountability__status-container">
     <%= cell(
           "decidim/accountability/status",
           nil,
-          url: results_path,
+          url: root_path,
           title: t("decidim.accountability.results.home_header.global_status"),
           extra_classes: "accountability__status__parent",
           render_blank: true
@@ -49,7 +49,6 @@
 <%= render layout: "layouts/decidim/shared/layout_two_col" do %>
   <% if category.present? %>
     <h2 class="h4"><%= translated_attribute category.name %></h2>
-    <div class="editor-content mt-4"><%= translated_attribute(category.description).html_safe %></div>
   <% else %>
     <h2 class="h4"><%= t("decidim.accountability.results.home_header.global_status") %></h2>
   <% end %>
