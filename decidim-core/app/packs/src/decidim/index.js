@@ -21,6 +21,7 @@ import Accordions from "a11y-accordion-component";
 import Dropdowns from "a11y-dropdown-component";
 import Dialogs from "a11y-dialog-component";
 import markAsReadNotifications from "src/decidim/notifications"
+import { StreamActions } from "@hotwired/turbo"
 
 window.Decidim = window.Decidim || {};
 window.Decidim.config = new Configuration()
@@ -127,11 +128,16 @@ const initializer = () => {
 $(() => initializer());
 
 document.addEventListener("turbo:frame-render", (_frame) => {
-  initializer();
-  document.querySelectorAll("[data-drawer]").forEach(
+  initializer()
+})
+
+StreamActions.open_drawer = function() {
+  const frame_id = this.getAttribute("frame_id")
+
+  document.querySelectorAll(`#${frame_id} [data-drawer]`).forEach(
     ({ dataset: { drawer } }) =>
     new Dialogs(`[data-drawer="${drawer}"]`, {
       closingSelector: `[data-drawer-close="${drawer}"]`
     }).open()
   )
-})
+}
