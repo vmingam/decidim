@@ -132,9 +132,15 @@ document.addEventListener("turbo:frame-render", (_frame) => {
 })
 
 StreamActions.open_drawer = function() {
-  const frame_id = this.getAttribute("frame_id")
+  const frameId = this.getAttribute("frame_id");
+  const drawer = document.getElementById(frameId);
+  const filteredPath = drawer.dataset.filteredPath;
 
-  document.querySelectorAll(`#${frame_id} [data-drawer]`).forEach(
+  if (filteredPath) {
+    drawer.querySelector("a[data-drawer-close]").setAttribute("href", filteredPath);
+  }
+
+  document.querySelectorAll(`#${frameId} [data-drawer]`).forEach(
     ({ dataset: { drawer } }) =>
     new Dialogs(`[data-drawer="${drawer}"]`, {
       closingSelector: `[data-drawer-close="${drawer}"]`
