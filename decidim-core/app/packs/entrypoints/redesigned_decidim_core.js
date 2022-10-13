@@ -39,7 +39,7 @@ import "src/decidim/form_remote"
 // REDESIGN_PENDING: remove deprecated js file (now it's a decidim_core.js dependency)
 // import "src/decidim/conferences" -- deprecated
 import "src/decidim/tooltip_keep_on_hover"
-import "src/decidim/diff_mode_dropdown"
+// import "src/decidim/diff_mode_dropdown" -- deprecated
 import "src/decidim/delayed"
 import "src/decidim/vizzs"
 import "src/decidim/responsive_horizontal_tabs"
