@@ -35,9 +35,9 @@
     </div>
     <% if has_replies_in_children? %>
       <div class="comment-reply empty:hidden" id="comment-<%= model.id %>-replies">
-          <% replies.each do |reply| %>
-            <%= cell("decidim/comments/comment", reply, root_depth: root_depth, order: order, reloaded: reloaded?) %>
-          <% end %>
+        <% replies.each do |reply| %>
+          <%= cell("decidim/comments/comment", reply, root_depth: root_depth, order: order, reloaded: reloaded?) %>
+        <% end %>
       </div>
     <% end %>
   <% end %>
