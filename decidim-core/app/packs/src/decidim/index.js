@@ -33,6 +33,19 @@ window.Decidim.CommentsComponent = CommentsComponent;
 window.Decidim.addInputEmoji = addInputEmoji;
 window.Decidim.CreateEmojiButton = CreateEmojiButton;
 
+const basic_initializer = () => {
+  // initialize character counter
+  $("input[type='text'], textarea, .editor>input[type='hidden']").each((_i, elem) => {
+    const $input = $(elem);
+
+    if (!$input.is("[minlength]") && !$input.is("[maxlength]")) {
+      return;
+    }
+
+    createCharacterCounter($input);
+  });
+}
+
 const initializer = () => {
   window.theDataPicker = new DataPicker($(".data-picker"));
   window.focusGuard = new FocusGuard(document.querySelector("body"));
@@ -129,6 +142,10 @@ $(() => initializer());
 
 document.addEventListener("turbo:frame-render", (_frame) => {
   initializer()
+})
+
+document.addEventListener("turbo:load", (_frame) => {
+  basic_initializer();
 })
 
 StreamActions.open_drawer = function() {
