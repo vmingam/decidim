@@ -1,12 +1,16 @@
 /* eslint no-unused-vars: 0 */
 /* eslint id-length: ["error", { "exceptions": ["$"] }] */
 
+import "core-js/stable";
+import "regenerator-runtime/runtime";
+
 import $ from "jquery"
 import Quill from "quill"
 import Rails from "@rails/ujs"
 
-import "core-js/stable";
-import "regenerator-runtime/runtime";
+// Turbo
+import "@hotwired/turbo-rails"
+
 import morphdom from "morphdom"
 // Export variable to make it available in .js.erb templates
 window.morphdom = morphdom
@@ -64,9 +68,6 @@ import "entrypoints/redesigned_decidim_core.scss"
 
 // Import from the Rails instance application
 import "src/decidim/decidim_application"
-
-// Turbo
-import "@hotwired/turbo-rails"
 
 // Images
 require.context("../images", true)
