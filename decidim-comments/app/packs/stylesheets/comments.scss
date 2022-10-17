@@ -44,6 +44,57 @@
       @apply mr-2;
     }
 
+    .button_to:first-child,
+    .button_to:nth-child(2) {
+      svg:first-child {
+        @apply block;
+      }
+      svg:nth-child(2) {
+        @apply hidden;
+      }
+      .is-vote-selected{
+         svg:first-child {
+           @apply hidden;
+         }
+         svg:nth-child(2) {
+           @apply block;
+         }
+       }
+      .is-vote-notselected{
+        svg:first-child {
+          @apply block;
+        }
+        svg:nth-child(2) {
+          @apply hidden;
+        }
+      }
+    }
+
+    .button_to:nth-child(2) {
+      svg:first-child {
+        @apply block;
+      }
+      svg:nth-child(2) {
+        @apply hidden;
+      }
+      .is-vote-selected{
+         svg:first-child {
+           @apply hidden;
+         }
+         svg:nth-child(2) {
+           @apply block;
+         }
+       }
+      .is-vote-notselected{
+        svg:first-child {
+          @apply block;
+        }
+        svg:nth-child(2) {
+          @apply hidden;
+        }
+      }
+    }
+
     .comment__votes--count{
       @apply text-gray-2 text-sm;
     }
@@ -59,6 +110,37 @@
 
   &-order-by__item{
     @apply text-[13px] text-secondary;
+  }
+
+  &__actions{
+    .button[aria-expanded="false"]{
+      svg:first-of-type{
+        @apply block;
+      }
+      svg:last-of-type{
+        @apply hidden;
+      }
+      span:first-of-type{
+        @apply block;
+      }
+      span:last-of-type{
+        @apply hidden;
+      }
+    }
+    .button[aria-expanded="true"]{
+      svg:first-of-type{
+        @apply hidden;
+      }
+      svg:last-of-type{
+        @apply block;
+      }
+      span:first-of-type{
+        @apply hidden;
+      }
+      span:last-of-type{
+        @apply block;
+      }
+    }
   }
 
 }
