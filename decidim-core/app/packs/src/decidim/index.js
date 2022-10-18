@@ -22,6 +22,7 @@ import Dropdowns from "a11y-dropdown-component";
 import Dialogs from "a11y-dialog-component";
 import markAsReadNotifications from "src/decidim/notifications"
 import RemoteModal from "src/decidim/redesigned_ajax_modals"
+import addFloatingHelp from "./redesigned_floating_help"
 
 window.Decidim = window.Decidim || {};
 window.Decidim.config = new Configuration()
@@ -32,7 +33,8 @@ window.Decidim.DataPicker = DataPicker;
 window.Decidim.CommentsComponent = CommentsComponent;
 window.Decidim.addInputEmoji = addInputEmoji;
 window.Decidim.EmojiButton = EmojiButton;
-/*REDESING_PENDING it's not necessary when turbo is loaded */
+
+/* REDESING_PENDING it's not necessary when turbo is loaded */
 window.Decidim.Accordions = Accordions;
 window.Decidim.Dropdowns = Dropdowns;
 
@@ -146,4 +148,7 @@ $(() => {
   markAsReadNotifications()
 
   scrollToLastChild()
+
+  // Initialize the floating help blocks for the participatory processes
+  document.querySelectorAll("[data-floating-help]").forEach((elem) => addFloatingHelp(elem))
 });
