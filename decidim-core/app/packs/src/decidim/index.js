@@ -41,12 +41,10 @@ window.Decidim.Dropdowns = Dropdowns;
 /**
  * Initializer event for those script who require to be triggered
  * when the page is loaded
+ *
+ * @returns {void}
  */
-// If no jQuery is used the Tribute feature used in comments to autocomplete
-// mentions stops working
-// document.addEventListener("DOMContentLoaded", () => {
-$(() => {
-
+const initializer = () => {
   window.theDataPicker = new DataPicker($(".data-picker"));
   window.focusGuard = new FocusGuard(document.querySelector("body"));
 
@@ -148,7 +146,14 @@ $(() => {
   markAsReadNotifications()
 
   scrollToLastChild()
+}
 
-  // Initialize the floating help blocks for the participatory processes
-  document.querySelectorAll("[data-floating-help]").forEach((elem) => addFloatingHelp(elem))
-});
+if ("Turbo" in window) {
+  document.addEventListener("turbo:frame-render", () => initializer());
+  document.addEventListener("turbo:load", () => initializer());
+} else {
+  // If no jQuery is used the Tribute feature used in comments to autocomplete
+  // mentions stops working
+  // document.addEventListener("DOMContentLoaded", () => {
+  $(() => initializer());
+}
