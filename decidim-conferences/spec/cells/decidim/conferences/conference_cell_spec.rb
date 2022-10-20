@@ -12,7 +12,7 @@ module Decidim::Conferences
 
     context "when rendering" do
       it "renders the card" do
-        expect(subject).to have_css(".conference__list__item")
+        expect(subject).to have_css("[id^='conference']")
       end
     end
   end
