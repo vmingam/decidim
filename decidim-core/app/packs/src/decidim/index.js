@@ -21,8 +21,7 @@ import Accordions from "a11y-accordion-component";
 import Dropdowns from "a11y-dropdown-component";
 import Dialogs from "a11y-dialog-component";
 import markAsReadNotifications from "src/decidim/notifications"
-import RemoteModal from "src/decidim/redesigned_ajax_modals"
-import addFloatingHelp from "./redesigned_floating_help"
+import RemoteModal from "src/decidim/ajax_modals"
 
 window.Decidim = window.Decidim || {};
 window.Decidim.config = new Configuration()
