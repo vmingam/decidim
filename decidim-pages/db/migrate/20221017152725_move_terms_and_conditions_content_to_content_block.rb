@@ -24,7 +24,7 @@ class MoveTermsAndConditionsContentToContentBlock < ActiveRecord::Migration[6.1]
       content_block = ContentBlock.create(content_block_params(organization.id, page.id))
       content_block.published_at = Time.current
       content_block.weight = 1
-      content_block.settings = { summary: page.content }
+      content_block.settings = { content: page.content }
       content_block.save
 
       page.content = {}
@@ -40,7 +40,7 @@ class MoveTermsAndConditionsContentToContentBlock < ActiveRecord::Migration[6.1]
       content_block = content_block(organization.id, page.id)
       next unless content_block
 
-      page.content = content_block.settings["summary"]
+      page.content = content_block.settings["content"]
       page.save
 
       content_block.delete
@@ -59,7 +59,7 @@ class MoveTermsAndConditionsContentToContentBlock < ActiveRecord::Migration[6.1]
     {
       decidim_organization_id: organization_id,
       scope_name: :static_page,
-      manifest_name: :summary,
+      manifest_name: :section,
       scoped_resource_id: page_id
     }
   end

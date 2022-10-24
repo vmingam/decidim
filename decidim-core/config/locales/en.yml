@@ -517,6 +517,9 @@ en:
         summary:
           name: Summary
           summary_content: Content
+        section:
+          name: Section
+          section_content: Content
       stats:
         name: Organization statistics
       sub_hero:

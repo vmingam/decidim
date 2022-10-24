@@ -506,6 +506,18 @@ module Decidim
 
           content_block.default!
         end
+
+        Decidim.content_blocks.register(:static_page, :section) do |content_block|
+          content_block.cell = "decidim/content_blocks/static_page/section"
+          content_block.settings_form_cell = "decidim/content_blocks/static_page/section_settings_form"
+          content_block.public_name_key = "decidim.content_blocks.static_page.section.name"
+
+          content_block.settings do |settings|
+            settings.attribute :content, type: :text, translated: true
+          end
+
+          content_block.default!
+        end
       end
 
       initializer "decidim.core.newsletter_templates" do
