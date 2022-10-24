@@ -78,8 +78,10 @@ const initializer = () => {
     createQuillEditor(container);
   });
 
-  // initialize external-link feature only to the matching elements
-  document.querySelectorAll("a[target=\"_blank\"]:not([data-external-link=\"false\"])").forEach((elem) => new ExternalLink(elem))
+  $('a[target="_blank"]').each((_i, elem) => {
+    const $link = $(elem);
+    $link.data("external-link", new ExternalLink($link));
+  });
 
   // initialize character counter
   $("input[type='text'], textarea, .editor>input[type='hidden']").each((_i, elem) => {
