@@ -34,7 +34,13 @@ module Decidim
     end
 
     def button_class
-      "#{options[:button_class]} add-file"
+      if redesign_enabled?
+        options[:button_class] || ""
+      else
+        "button small hollow add-field add-file" if has_title?
+
+        "button small add-file"
+      end
     end
 
     def label
