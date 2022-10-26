@@ -14,25 +14,27 @@ edit_link(
 )
 %>
 
-<%= content_for :aside do %>
-  <div class="conference__nav-container">
-    <button id="dropdown-trigger" data-component="dropdown" data-target="dropdown-menu" data-auto-close="true">
-      <span><%= t("decidim.searches.filters.jump_to") %></span>
-      <%= icon "arrow-down-s-line" %>
-      <%= icon "arrow-up-s-line" %>
-    </button>
-    <ul id="dropdown-menu" class="conference__nav">
-      <%= render partial: "layouts/decidim/conferences/conference_nav_item", collection: conference_nav_items, as: :item %>
-    </ul>
-  </div>
-<% end %>
+<main>
 
-<%# REDESIGN_PENDING: integrate with turbo %>
-<%= participatory_space_floating_help %>
+  <%= content_for :aside do %>
+    <div class="conference__nav-container">
+      <button id="dropdown-trigger" data-component="dropdown" data-target="dropdown-menu" data-auto-close="true">
+        <span><%= t("decidim.searches.filters.jump_to") %></span>
+        <%= icon "arrow-down-s-line" %>
+        <%= icon "arrow-up-s-line" %>
+      </button>
+      <ul id="dropdown-menu" class="conference__nav">
+        <%= render partial: "layouts/decidim/conferences/conference_nav_item", collection: conference_nav_items, as: :item %>
+      </ul>
+    </div>
+  <% end %>
 
-<%= render partial: "conference_hero" %>
+  <%= render partial: "conference_hero" %>
 
-<%= render layout:"layouts/decidim/shared/layout_two_col", locals: { reverse: true } do %>
+  <%= render layout:"layouts/decidim/shared/layout_two_col", locals: { reverse: true, main_enabled: false } do %>
+
+    <%# REDESIGN_PENDING: Uncomment after https://github.com/decidim/decidim/pull/10005 %>
+    <%#= redesigned_participatory_space_floating_help %>
 
     <section class="content-block">
       <h2 class="h2 decorator"><%= t("conferences.show.introduction", scope: "decidim") %></h2>
@@ -53,7 +55,7 @@ edit_link(
         <% end %>
         <% current_participatory_space.components.where(manifest_name: "meetings").each do |component_meeting| %>
           <% if component_meeting.published? || component_meeting == self.try(:current_component) %>
-            <%= link_to translated_attribute(component_meeting.name), decidim_conferences.conference_conference_program_path(current_participatory_space, id: component_meeting.id), class:"button button__lg button__transparent-secondary" %>
+            <%= link_to "#{t("title", scope: "decidim.conference_program.index")}: #{translated_attribute(component_meeting.name)}", decidim_conferences.conference_conference_program_path(current_participatory_space, id: component_meeting.id), class:"button button__lg button__transparent-secondary" %>
           <% end %>
         <% end %>
       </div>
@@ -99,3 +101,4 @@ edit_link(
     <% end %>
 
   <% end %>
+</main>
