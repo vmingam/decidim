@@ -13,6 +13,11 @@
     </div>
 
     <%= decidim_sanitize html_truncate(translated_attribute(description), length: 140) %>
+
+    <div>
+      <%= render :projects_count %>
+      <%= render :vote_action %>
+    </div>
   </div>
 
   <% if !voting_finished? %>
