@@ -21,6 +21,8 @@ module Decidim
       "Decidim::Conference" => "question-mark", # REDESIGN_PENDING: icon unknown
       "Decidim::Consultation" => "question-mark", # REDESIGN_PENDING: icon unknown
       "Decidim::Votings::Voting" => "check-double-fill",
+      "Decidim::Category" => "price-tag-3-line",
+      "Decidim::Scope" => "scan-line",
       "other" => "price-tag-3-line",
       "upcoming" => "calendar-2-line",
       "past" => "calendar-check-line",
