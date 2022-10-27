@@ -148,4 +148,22 @@ describe "Conference registrations", type: :system do
       end
     end
   end
+
+  context "and the user has been invited to the conference" do
+    let!(:invite) { create(:conference_invite, user:, registration_type:) }
+
+    it "requires the user to sign in" do
+      visit_conference_registration_type
+      expect(page).to have_current_path("/users/sign_in")
+    end
+
+    context "when the user is signed in" do
+      before { login_as user, scope: :user }
+
+      it "accepts the invitation successfully" do
+        visit_conference_registration_type
+        expect(page).to have_content("successfully")
+      end
+    end
+  end
 end
