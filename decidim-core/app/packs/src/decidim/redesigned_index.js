@@ -193,6 +193,9 @@ const initializer = () => {
       })
   );
 
+  // Initialize available remote modals (ajax-fetched contents)
+  document.querySelectorAll("[data-dialog-remote-url]").forEach((elem) => new RemoteModal(elem))
+
   markAsReadNotifications()
 
   scrollToLastChild()
