@@ -50,7 +50,6 @@ import "./vizzs"
 import "./responsive_horizontal_tabs"
 import "./security/selfxss_warning"
 import "./session_timeouter"
-import "./floating_help"
 import "./confirm"
 import "./results_listing"
 // import "./represent_user_group" -- deprecated
